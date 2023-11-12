@@ -1,2 +1,2 @@
-# gcp-react-webapp
-A user portal React Application deployed on GCP using CI/CD
+# react-nodejs-gke
+Example Project on how to deploy React App with Nodejs Backend on GCP GKE

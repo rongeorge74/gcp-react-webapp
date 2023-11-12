@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: react-webapp
+  name: react-webapp
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: react-webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: react-webapp
+    spec:
+      containers:
+      - image: us-central1-docker.pkg.dev/single-shadow-403809/react-app/react@sha256:7ed1489961e435b0e99fe133acc98994b22f4d69ab3361d52468bd059765e225
+        name: webapp
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 3080 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-webapp
+  labels:
+    run: react-webapp
+spec:
+  ports:
+  - port: 3080
+    protocol: TCP
+  selector:
+    app: react-webapp
+  type: LoadBalancer

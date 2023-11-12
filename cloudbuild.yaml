@@ -1,0 +1,25 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "us-central1-docker.pkg.dev/single-shadow-403809/react-app/react:$COMMIT_SHA",
+        ".",
+      ]
+    # secretEnv: ["MYSECRET"]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "us-central1-docker.pkg.dev/single-shadow-403809/react-app/react:$COMMIT_SHA",
+      ]
+    # secretEnv: ["MYSECRET"]
+
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=manifest.yaml
+      - --image=us-central1-docker.pkg.dev/single-shadow-403809/react-app/react:$COMMIT_SHA
+      - --location=us-central1
+      - --cluster=expense-tracker-cluster
